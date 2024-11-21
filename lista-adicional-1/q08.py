@@ -1,30 +1,61 @@
-'''Os dados a seguir representam os preços diários de fechamentos no pregão da
-Bovespa entre os meses de setembro e outubro de 2019. A coluna A do Excel se
-refere a VALE3 (Vale do Rio Doce) e a coluna B indica GGBR4 (Gerdau). Os dados
-estão em um arquivo Excel na planilha denominada Plan1.
-
-Deseja-se, então, que esses dados sejam importados para o Python com a biblioteca
-xlrd e que se responda aos itens a seguir.
-(a) Importar os dados do Excel e transformar a coluna A em uma variável que
-represente a Vale e a coluna B em outra variável que represente a coluna B.
-(b) Transformar as variáveis em vetores usando a biblioteca numpy.
-(c) Fazer os dois gráficos dos preços da Vale e da Gerdau usando subplot. Colocar
-a Vale na parte superior da figura e a Gerdau na parte inferior.
-(d) Calcular os retornos das duas empresas e plotar os quatro gráficos (preço da
-Vale e seu retorno; preço da Gerdau e seu retorno) no formato de uma matriz
-com 2×2 elementos.'''
-
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Ler o arquivo Excel
-df = pd.read_excel('Untitled 1.xls', sheet_name='Sheet1')
-# Agora você pode acessar as colunas diretamente como Series ou transformá-las em arrays
-vale3 = df['A'].values
-ggbr4 = df['B'].values
+# Ler o arquivo Excel usando a biblioteca openpyxl
+try:
+    df = pd.read_excel('Untitled 1.xls', sheet_name='Plan1', engine='openpyxl')
+except FileNotFoundError:
+    print("O arquivo 'Untitled 1.xls' não foi encontrado. Verifique o nome e o caminho.")
+    exit()
 
-# Exibir os dados
-print(vale3)
-print(ggbr4)
+# Garantir que as colunas 'A' e 'B' sejam lidas corretamente como float
+try:
+    vale3 = df['A'].astype(float).values
+    ggbr4 = df['B'].astype(float).values
+except KeyError:
+    print("Certifique-se de que o arquivo possui colunas 'A' e 'B'.")
+    exit()
 
+# Calcular os retornos diários
+retorno_vale = (vale3[1:] - vale3[:-1]) / vale3[:-1]
+retorno_ggbr = (ggbr4[1:] - ggbr4[:-1]) / ggbr4[:-1]
 
+# Criar a figura com 2x2 subplots
+fig, axs = plt.subplots(2, 2, figsize=(12, 10))
 
+# Gráfico do preço da Vale na parte superior
+axs[0, 0].plot(vale3, label='Preço Vale3', color='blue')
+axs[0, 0].set_title('Preço da Vale (VALE3)')
+axs[0, 0].set_xlabel('Dia')
+axs[0, 0].set_ylabel('Preço')
+axs[0, 0].legend()
+axs[0, 0].grid(True)
+
+# Gráfico do retorno da Vale na parte superior
+axs[0, 1].plot(retorno_vale, label='Retorno Vale3', color='blue')
+axs[0, 1].set_title('Retorno da Vale (VALE3)')
+axs[0, 1].set_xlabel('Dia')
+axs[0, 1].set_ylabel('Retorno')
+axs[0, 1].legend()
+axs[0, 1].grid(True)
+
+# Gráfico do preço da Gerdau na parte inferior
+axs[1, 0].plot(ggbr4, label='Preço GGBR4', color='red')
+axs[1, 0].set_title('Preço da Gerdau (GGBR4)')
+axs[1, 0].set_xlabel('Dia')
+axs[1, 0].set_ylabel('Preço')
+axs[1, 0].legend()
+axs[1, 0].grid(True)
+
+# Gráfico do retorno da Gerdau na parte inferior
+axs[1, 1].plot(retorno_ggbr, label='Retorno GGBR4', color='red')
+axs[1, 1].set_title('Retorno da Gerdau (GGBR4)')
+axs[1, 1].set_xlabel('Dia')
+axs[1, 1].set_ylabel('Retorno')
+axs[1, 1].legend()
+axs[1, 1].grid(True)
+
+# Ajustar o layout e mostrar os gráficos
+plt.tight_layout()
+plt.show()

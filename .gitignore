@@ -1,0 +1,16 @@
+# Ambiente virtual
+venv/
+listas-python/
+
+# Arquivos de cache do Python
+__pycache__/
+*.pyc
+
+# Arquivos de configuração do editor (exemplo para VSCode)
+.vscode/
+
+# Arquivos do sistema operacional (exemplo para macOS)
+.DS_Store
+
+# Arquivos de log
+*.log
