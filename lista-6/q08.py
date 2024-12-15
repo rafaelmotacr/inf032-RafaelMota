@@ -17,3 +17,4 @@ while not jucaHeight > chicoHeight:
     yearsPassed = yearsPassed + 1
 
 print(f"> It takes {yearsPassed} years for Juca to surpass Chico. At that moment, Juca will have {jucaHeight:.2f} meters!")
+    
