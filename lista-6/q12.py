@@ -33,8 +33,7 @@ def priceUsingCansAndGallons(neededInk = float()):
     if remainingInk > 0:
         inkGallons += 1
 
-    priceMixed = inkCans * 80 + inkGallons * 25
-    return priceMixed
+    return inkCans * 80 + inkGallons * 25
 
 
 # Main
