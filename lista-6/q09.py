@@ -13,12 +13,8 @@ b) o total de consumo para os 3(três) tipos de consumidor;
 c) a media de consumo dos tipos 1 e 2.
 """
 consumersList = list()
-consumerID = int()
-kwhMonth = float()
-consumerType = int()
-
 residentialConsumption = commercialConsumption = industrialConsumption = 0
-commercialConsumptionConsumers = industrialConsumptionConsumers = 0
+commercialConsumptionConsumers = residentialConsumptionConsumers = 0
 
 consumerTax = {
     "1": 0.3,  # Residencial
@@ -40,7 +36,7 @@ while True:
     print("====================================")
 
 for consumer in consumersList:
-    consumerTotal = consumer.get("kwhMonth") * kwhRates.get(consumer.get("consumerType")) 
+    consumerTotal = consumer.get("kwhMonth") * consumerTax.get(consumer.get("consumerType")) 
     print(f"> Total cost for consumer: {consumer.get("consumerID")} = {consumerTotal}.")
     match consumer.get("consumerType"):
         case '1':
